@@ -16,20 +16,33 @@ def foo(x):
 
 def longest_run(mylist, key):
     ### TODO
+    length = len(mylist)
     longest_run_length = 0
     current_run_length = 1
+    not_in_list = True
     for i in range(len(mylist)):
-        if mylist[i] == key:   
+        if i == length-1:
+            if current_run_length > longest_run_length:
+                longest_run_length = current_run_length   
+        elif mylist[i] == key:
+            not_in_list = False
             if i == 0:
                 longest_run_length = 1
             else:
                 if mylist[i] == mylist[i-1]:
-                    current_run_length += 1                    
+                    current_run_length += 1                          
         else:
             if current_run_length > longest_run_length:
                 longest_run_length = current_run_length
                 current_run_length = 1
-    return longest_run_length
+  
+
+
+
+    if not_in_list:
+        return 0
+    else:
+        return longest_run_length
     pass
 
 
@@ -97,7 +110,7 @@ def combine_results(result_left,result_right):
             return Result( left_size, right_size, longest_size, is_entire_range) 
 
     else:
-        if result_left.right_size != 0 and result_right.right_size != 0:
+        if result_left.right_size != 0 and result_right.left_size != 0:
             left_size = result_left.left_size 
             right_size = result_right.right_size
             longest_size = max(result_left.longest_size , result_right.longest_size, result_left.right_size + result_right.left_size)
@@ -114,4 +127,16 @@ def combine_results(result_left,result_right):
 ## Feel free to add your own tests here.
 def test_longest_run():
     assert longest_run([2,12,12,8,12,12,12,0,12,1], 12) == 3
+    assert longest_run([2,12,12,8,12,12,12,0,12,1], 12) == 3
+    assert longest_run([12,12,12,8,12,12,0,12,1], 12) ==3
+    assert longest_run([2,12,12,8,12,12,12,0,12,1], 999) == 0
+    assert longest_run([12,12,12,8,12,12,0,12,12,12,12], 12) == 4
 
+def test_longest_run_recursive():
+    assert longest_run_recursive([2,12,12,8,12,12,12,0,12,1], 12) == 3
+    assert longest_run_recursive([2,12,12,8,12,12,12,0,12,1], 12) == 3
+    assert longest_run_recursive([2,12,12,8,12,12,12,0,12,1], 12) == 3
+
+#test_longest_run()
+test_longest_run_recursive()
+print(longest_run_recursive([6, 12, 12, 12, 12, 6, 6, 6], 12) == 4)
